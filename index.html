@@ -11,7 +11,7 @@
   --ink:#151c2b; --muted:#5b6578; --accent:#3c5bd8; --accent-ink:#ffffff;
   --bad:#c62f2f; --warn:#c06c00; --good:#198a52;
   --c-timer:#ea5a3f; --c-timer2:#e23d7c; --c-goals:#c9951a; --c-tasks:#7b4fe0; --c-mail:#2f6fe0; --c-pipe:#16a065;
-  --c-cal:#0b9aa8; --c-monday:#d9417d; --c-utd:#d11a2a; --c-wx:#2a8fd8; --c-rem:#e1870c;
+  --c-cal:#0b9aa8; --c-monday:#d9417d; --c-utd:#d11a2a; --c-wx:#2a8fd8; --c-rem:#e1870c; --c-clock:#4f46e5;
   --gold:#c9951a; --silver:#8794a3; --bronze:#b0632e;
   --tick-bg:#151c2b; --tick-ink:#eef2f8;
   --f-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
@@ -24,7 +24,7 @@
   --ink:#e8edf5; --muted:#97a3b8; --accent:#7f97ff; --accent-ink:#0d121c;
   --bad:#ff7d7d; --warn:#f3a64a; --good:#5fd39a;
   --c-timer:#ff7a5e; --c-timer2:#ff5c9c; --c-goals:#f0c048; --c-tasks:#a585ff; --c-mail:#6c9cff; --c-pipe:#4fd391;
-  --c-cal:#3fd0db; --c-monday:#ff6ea5; --c-utd:#ff5a64; --c-wx:#62b5ff; --c-rem:#ffad42;
+  --c-cal:#3fd0db; --c-monday:#ff6ea5; --c-utd:#ff5a64; --c-wx:#62b5ff; --c-rem:#ffad42; --c-clock:#8f8cff;
   --gold:#f0c048; --silver:#c0cad6; --bronze:#e08a52;
   --tick-bg:#070a10; --tick-ink:#dfe6f0; color-scheme:dark}}
 :root[data-theme="dark"]{
@@ -32,7 +32,7 @@
   --ink:#e8edf5; --muted:#97a3b8; --accent:#7f97ff; --accent-ink:#0d121c;
   --bad:#ff7d7d; --warn:#f3a64a; --good:#5fd39a;
   --c-timer:#ff7a5e; --c-timer2:#ff5c9c; --c-goals:#f0c048; --c-tasks:#a585ff; --c-mail:#6c9cff; --c-pipe:#4fd391;
-  --c-cal:#3fd0db; --c-monday:#ff6ea5; --c-utd:#ff5a64; --c-wx:#62b5ff; --c-rem:#ffad42;
+  --c-cal:#3fd0db; --c-monday:#ff6ea5; --c-utd:#ff5a64; --c-wx:#62b5ff; --c-rem:#ffad42; --c-clock:#8f8cff;
   --gold:#f0c048; --silver:#c0cad6; --bronze:#e08a52;
   --tick-bg:#070a10; --tick-ink:#dfe6f0; color-scheme:dark}
 
@@ -211,6 +211,89 @@ details.set summary{cursor:pointer;font-size:13px;color:var(--muted)}
 .rem:last-child{border-bottom:none}
 .rem span{flex:1;min-width:0;overflow-wrap:anywhere}
 .foot{font-size:12px;color:var(--muted);text-align:center}
+.rz-r{position:absolute;top:44px;right:0;bottom:22px;width:9px;cursor:ew-resize;touch-action:none;z-index:2}
+.rz-b{position:absolute;left:0;right:22px;bottom:0;height:9px;cursor:ns-resize;touch-action:none;z-index:2}
+.rz-r:hover,.rz-b:hover,.w.resizing .rz-r,.w.resizing .rz-b{background:color-mix(in srgb,var(--h) 28%,transparent)}
+.resize{width:22px;height:22px;opacity:.8;z-index:3}
+.resize::after{width:11px;height:11px;border-width:2.5px}
+@media (max-width:760px){.rz-r,.rz-b{display:none}}
+.seg{display:inline-flex;background:var(--sunk);border-radius:999px;padding:2px;gap:2px}
+.seg button{border:none;background:none;border-radius:999px;padding:2px 10px;font-size:12px;cursor:pointer;color:var(--muted);font-family:var(--f-body)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.15)}
+.wk-nav{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.wk-nav .count{flex:1;text-align:center}
+.wk-nav .btn{padding:2px 10px}
+.wk-nav .btn:disabled{opacity:.4;cursor:default}
+.wk{display:grid;grid-template-columns:repeat(7,minmax(92px,1fr));gap:6px;overflow-x:auto;padding-bottom:4px}
+.wkd{background:var(--sunk);border-radius:10px;padding:6px;display:flex;flex-direction:column;gap:4px;min-height:120px;min-width:0}
+.wkd.today{background:color-mix(in srgb,var(--c-cal) 14%,var(--surface));box-shadow:inset 0 0 0 2px var(--c-cal)}
+.wkh{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;color:var(--muted)}
+.wkh b{font-family:var(--f-mono);font-size:15px;color:var(--ink)}
+.wke{display:block;text-decoration:none;color:var(--ink);font-size:12px;line-height:1.3;padding:4px 6px;border-radius:6px;background:color-mix(in srgb,var(--ec) 16%,var(--surface));border-left:3px solid var(--ec);overflow-wrap:anywhere}
+a.wke:hover{background:color-mix(in srgb,var(--ec) 26%,var(--surface))}
+.wkt{display:block;font-family:var(--f-mono);font-size:10.5px;color:var(--muted)}
+.wk-empty{color:var(--muted);font-size:12px;text-align:center;padding-top:6px}
+.mail-search{display:flex;gap:6px;margin:-12px -14px 8px;padding:10px 14px 8px;position:sticky;top:-12px;background:var(--surface);z-index:1;border-bottom:1px solid var(--line)}
+.mail-search input{flex:1;min-width:0}
+.linkbtn{background:none;border:none;color:var(--accent);cursor:pointer;padding:0;text-decoration:underline;font:inherit}
+#mailNote{margin-bottom:6px}
+.pop-panel[hidden]{display:none}
+/* Month view */
+.mo-head,.mo{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.mo-head div{font-size:11px;color:var(--muted);text-align:center;font-family:var(--f-mono);text-transform:uppercase;letter-spacing:.06em;padding-bottom:2px}
+.moc{background:var(--sunk);border:none;border-radius:8px;padding:4px 5px;min-height:74px;display:flex;flex-direction:column;gap:2px;text-align:left;cursor:pointer;color:var(--ink);font:inherit;min-width:0;overflow:hidden}
+.moc:hover{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--c-cal) 50%,transparent)}
+.moc.out{opacity:.45}
+.moc.today{background:color-mix(in srgb,var(--c-cal) 14%,var(--surface));box-shadow:inset 0 0 0 2px var(--c-cal)}
+.moc.sel{box-shadow:inset 0 0 0 2px var(--accent)}
+.moc .n{font-family:var(--f-mono);font-size:12px;font-weight:700}
+.moe{font-size:10.5px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:1px 4px;border-radius:4px;background:color-mix(in srgb,var(--ec) 18%,var(--surface));border-left:2px solid var(--ec)}
+.more{font-size:10.5px;color:var(--muted)}
+.dots{display:none;gap:3px;flex-wrap:wrap}
+.dots i{width:6px;height:6px;border-radius:50%;background:var(--ec)}
+.mo-day{margin-top:10px;border-top:1px solid var(--line);padding-top:8px}
+@container (max-width:520px){ .moe,.more{display:none} .dots{display:flex} .moc{min-height:44px} }
+
+/* Day plan clock */
+#b-clock{container-type:inline-size}
+.plan{display:grid;gap:12px}
+@container (min-width:560px){ .plan{grid-template-columns:minmax(200px,0.9fr) minmax(0,1.1fr);align-items:start} }
+.clockwrap{display:grid;justify-items:center;gap:8px}
+.dclock{width:min(100%,260px);aspect-ratio:1;max-width:100%}
+.dclock .face{fill:var(--surface);stroke:var(--line);stroke-width:1.5}
+.dclock .tick{stroke:var(--muted)} .dclock .tick.major{stroke:var(--ink);stroke-width:2.2}
+.dclock text{fill:var(--ink);font-family:var(--f-mono);font-size:11px;font-weight:700;text-anchor:middle;dominant-baseline:central}
+.dclock .ring-bg{fill:none;stroke:var(--sunk)}
+.dclock .hand{stroke:var(--ink);stroke-linecap:round}
+.dclock .hand.sec{stroke:var(--c-timer);stroke-width:1.4}
+.dclock .hub{fill:var(--ink)} .dclock .hub2{fill:var(--c-timer)}
+.dclock .ampm{font-size:9px;fill:var(--muted);font-weight:500}
+.nowcard{width:100%;border-radius:10px;padding:8px 10px;background:color-mix(in srgb,var(--nc,var(--c-clock)) 14%,var(--surface));border-left:4px solid var(--nc,var(--c-clock))}
+.nowcard .big{font-weight:700;font-size:15px}
+.plan-nav{display:flex;align-items:center;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+.plan-nav .count{flex:1;text-align:center;font-weight:700;color:var(--ink);font-family:var(--f-body);font-size:14px}
+.plan-nav .btn{padding:2px 10px}
+.seg-row{display:grid;grid-template-columns:30px 82px 82px minmax(0,1fr) 26px;gap:6px;align-items:center;padding:4px 0}
+.seg-row.now .lbl{box-shadow:inset 0 0 0 2px var(--sc)}
+.seg-row input[type=time],.seg-row .lbl{padding:5px 6px;border:1px solid var(--line);border-radius:6px;background:var(--sunk);width:100%;min-width:0;font-size:13px}
+.seg-row input[type=time]{font-family:var(--f-mono)}
+.seg-row input.bad{border-color:var(--bad);box-shadow:0 0 0 1px var(--bad)}
+.swatch{position:relative;width:30px;height:30px;border-radius:8px;background:var(--sc);border:2px solid color-mix(in srgb,var(--sc) 70%,#000);cursor:pointer;overflow:hidden}
+.swatch input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer;border:none;padding:0}
+.pal{display:flex;gap:5px;flex-wrap:wrap;margin:2px 0 4px 36px}
+.pal button{width:18px;height:18px;border-radius:50%;border:2px solid var(--surface);box-shadow:0 0 0 1px var(--line);cursor:pointer;padding:0}
+.plan-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.seg-head{display:grid;grid-template-columns:30px 82px 82px minmax(0,1fr) 26px;gap:6px;font-size:11px;color:var(--muted);font-family:var(--f-mono);text-transform:uppercase;letter-spacing:.05em}
+@container (max-width:380px){ .seg-row,.seg-head{grid-template-columns:30px 1fr 1fr 26px} .seg-row .lbl{grid-column:2 / 4;grid-row:2} .seg-head span:nth-child(4){display:none} }
+
+#b-cal{container-type:inline-size}
+@container (max-width:620px){
+  .wk{grid-template-columns:1fr;overflow:visible}
+  .wkd{min-height:0;display:grid;grid-template-columns:58px minmax(0,1fr);gap:4px 8px;align-items:start}
+  .wkd .wkh{grid-row:1 / span 20;flex-direction:column;align-items:flex-start;gap:0}
+  .wk-empty{text-align:left;padding-top:2px}
+}
+
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -231,7 +314,7 @@ details.set summary{cursor:pointer;font-size:13px;color:var(--muted)}
     <div>
       <div class="eyebrow" id="dateLine"></div>
       <h1 id="greet">Good day, John</h1>
-      <p class="sub">Pick one thing, start the timer. Drag ⠿ to move a widget, pull its corner to resize.</p>
+      <p class="sub">Pick one thing, start the timer. Drag ⠿ to move a widget. Drag any edge or corner to resize it.</p>
     </div>
     <div class="bar-actions">
       <a class="pill clock" href="https://app.clockify.me/tracker" target="_blank" rel="noopener">▶ Start Clockify</a>
@@ -294,23 +377,24 @@ paintHeader(); setInterval(paintHeader, 60000);
 /* ---------- Widgets & layout ---------- */
 const WIDGETS = {
   timer:   { title:"Focus timer",          hue:"--c-timer" },
+  clock:   { title:"Day plan",             hue:"--c-clock" },
   tasks:   { title:"Tasks",                hue:"--c-tasks",  meta:"HubSpot" },
-  goals:   { title:"Family & home goals",  hue:"--c-goals" },
-  cal:     { title:"Appointments",         hue:"--c-cal",    meta:"Next 14 days" },
+  goals:   { title:"Weekly Goals",         hue:"--c-goals" },
+  cal:     { title:"Calendar",             hue:"--c-cal" },
   monday:  { title:"Projects",             hue:"--c-monday", meta:"monday.com" },
-  inbox:   { title:"Inbox",                hue:"--c-mail",   meta:"Gmail · 7 days" },
+  inbox:   { title:"Inbox",                hue:"--c-mail",   meta:"Gmail" },
   pipe:    { title:"Pipeline",             hue:"--c-pipe",   meta:"HubSpot deals" },
   rems:    { title:"Reminders",            hue:"--c-rem",    meta:"In the ticker" }
 };
 const DEFAULT_LAYOUT = [
-  { id:"timer", w:4, h:15 }, { id:"tasks", w:5, h:15 }, { id:"cal", w:3, h:15 },
-  { id:"goals", w:4, h:14 }, { id:"monday", w:4, h:14 }, { id:"pipe", w:4, h:14 },
-  { id:"inbox", w:8, h:11 }, { id:"rems", w:4, h:11 }
+  { id:"timer", w:4, h:15 }, { id:"clock", w:4, h:15 }, { id:"tasks", w:4, h:15 }, { id:"cal", w:6, h:16 },
+  { id:"goals", w:3, h:16 }, { id:"monday", w:3, h:16 }, { id:"pipe", w:4, h:14 },
+  { id:"inbox", w:8, h:16 }, { id:"rems", w:4, h:16 }
 ];
 function normLayout(l){
   const seen = new Set(), out = [];
-  for (const e of (Array.isArray(l) ? l : [])) if (WIDGETS[e.id] && !seen.has(e.id)){ seen.add(e.id); out.push({ id:e.id, w:Math.min(12, Math.max(2, e.w|0 || 4)), h:Math.min(40, Math.max(4, e.h|0 || 10)), hidden:!!e.hidden }); }
-  for (const d of DEFAULT_LAYOUT) if (!seen.has(d.id)) out.push({ ...d });
+  for (const e of (Array.isArray(l) ? l : [])) if (WIDGETS[e.id] && !seen.has(e.id)){ seen.add(e.id); out.push({ id:e.id, w:Math.min(12, Math.max(2, e.w|0 || 4)), h:Math.min(40, Math.max(3, e.h|0 || 10)), hidden:!!e.hidden }); }
+  DEFAULT_LAYOUT.forEach((d, i) => { if (!seen.has(d.id)) out.splice(Math.min(i, out.length), 0, { ...d }); });
   return out;
 }
 let layout = normLayout(ls.get("desk.layout.v3", DEFAULT_LAYOUT));
@@ -320,7 +404,7 @@ for (const [id, w] of Object.entries(WIDGETS)){
   const el = document.createElement("section");
   el.className = "w"; el.id = "w-" + id; el.dataset.id = id; el.style.setProperty("--h", `var(${w.hue})`);
   el.setAttribute("aria-label", w.title);
-  el.innerHTML = `<div class="wh"><span class="dot"></span><h2>${esc(w.title)}</h2><span class="meta" id="meta-${id}">${esc(w.meta || "")}</span><button class="grip" type="button" aria-label="Move ${esc(w.title)}. Use arrow keys to move." title="Drag to move">⠿⠿</button></div><div class="wb" id="b-${id}"></div><button class="resize" type="button" aria-label="Resize ${esc(w.title)}. Use arrow keys to resize." title="Drag to resize"></button>`;
+  el.innerHTML = `<div class="wh"><span class="dot"></span><h2>${esc(w.title)}</h2><span class="meta" id="meta-${id}">${esc(w.meta || "")}</span><button class="grip" type="button" aria-label="Move ${esc(w.title)}. Use arrow keys to move." title="Drag to move">⠿⠿</button></div><div class="wb" id="b-${id}"></div><span class="rz-r" data-axis="x" aria-hidden="true"></span><span class="rz-b" data-axis="y" aria-hidden="true"></span><button class="resize" data-axis="xy" type="button" aria-label="Resize ${esc(w.title)}. Use arrow keys to resize." title="Drag to resize"></button>`;
   board.appendChild(el);
 }
 function applyLayout(){
@@ -335,7 +419,7 @@ applyLayout();
 /* drag to reorder */
 let drag = null;
 board.addEventListener("pointerdown", e => {
-  const grip = e.target.closest(".grip"), rz = e.target.closest(".resize");
+  const grip = e.target.closest(".grip"), rz = e.target.closest(".resize,.rz-r,.rz-b");
   if (!grip && !rz) return;
   const el = e.target.closest(".w"); const id = el.dataset.id; const entry = layout.find(x => x.id === id);
   e.preventDefault(); (grip || rz).setPointerCapture(e.pointerId);
@@ -343,14 +427,14 @@ board.addEventListener("pointerdown", e => {
   else {
     const cs = getComputedStyle(board); const gap = parseFloat(cs.columnGap) || 14;
     const colW = (board.clientWidth - gap * 11) / 12 + gap; const rowH = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--row")) || 24) + gap;
-    drag = { mode:"size", id, el, entry, x:e.clientX, y:e.clientY, w:entry.w, h:entry.h, colW, rowH }; el.classList.add("resizing");
+    drag = { mode:"size", axis:rz.dataset.axis || "xy", id, el, entry, x:e.clientX, y:e.clientY, w:entry.w, h:entry.h, colW, rowH }; el.classList.add("resizing");
   }
 });
 board.addEventListener("pointermove", e => {
   if (!drag) return;
   if (drag.mode === "size"){
-    drag.entry.w = Math.min(12, Math.max(2, Math.round(drag.w + (e.clientX - drag.x) / drag.colW)));
-    drag.entry.h = Math.min(40, Math.max(4, Math.round(drag.h + (e.clientY - drag.y) / drag.rowH)));
+    if (drag.axis.includes("x")) drag.entry.w = Math.min(12, Math.max(2, Math.round(drag.w + (e.clientX - drag.x) / drag.colW)));
+    if (drag.axis.includes("y")) drag.entry.h = Math.min(40, Math.max(3, Math.round(drag.h + (e.clientY - drag.y) / drag.rowH)));
     applyLayout(); return;
   }
   const under = document.elementFromPoint(e.clientX, e.clientY); const target = under && under.closest(".w");
@@ -375,7 +459,7 @@ board.addEventListener("keydown", e => {
 /* widgets panel */
 function paintWidgetsPanel(){
   $("#widgetsPanel").innerHTML = `<div class="eyebrow">Show widgets</div>` + layout.map(e => `<label style="--h:var(${WIDGETS[e.id].hue})" for="show-${e.id}"><input type="checkbox" id="show-${e.id}" data-id="${e.id}" ${e.hidden ? "" : "checked"}><i></i>${esc(WIDGETS[e.id].title)}</label>`).join("")
-    + (gcals.length ? `<hr><div class="eyebrow">Calendars in Appointments</div>` + gcals.map(c => `<label style="--h:${esc(c.color || "var(--c-cal)")}" for="cal-${esc(c.key)}"><input type="checkbox" id="cal-${esc(c.key)}" data-cal="${esc(c.id)}" ${calPrefs[c.id] === false ? "" : "checked"}><i></i>${esc(c.name)}</label>`).join("") : "")
+    + (gcals.length ? `<hr><div class="eyebrow">Calendars shown</div>` + gcals.map(c => `<label style="--h:${esc(c.color || "var(--c-cal)")}" for="cal-${esc(c.key)}"><input type="checkbox" id="cal-${esc(c.key)}" data-cal="${esc(c.id)}" ${calPrefs[c.id] === false ? "" : "checked"}><i></i>${esc(c.name)}</label>`).join("") : "")
     + `<hr><button class="btn" type="button" id="resetLayout">Reset layout</button><span class="hint">Your layout is saved to your account.</span>`;
 }
 $("#widgetsBtn").addEventListener("click", () => { const p = $("#widgetsPanel"); p.hidden = !p.hidden; $("#widgetsBtn").setAttribute("aria-expanded", !p.hidden); if (!p.hidden) paintWidgetsPanel(); });
@@ -387,13 +471,13 @@ $("#widgetsPanel").addEventListener("click", e => { if (e.target.id !== "resetLa
 document.addEventListener("click", e => { if (!e.target.closest(".pop")) { $("#widgetsPanel").hidden = true; $("#widgetsBtn").setAttribute("aria-expanded", "false"); } });
 
 /* ---------- Ticker ---------- */
-const tickerData = { tasks:[], appts:[], rems:[], pipe:[], wx:[], utd:[] };
+const tickerData = { plan:[], tasks:[], appts:[], rems:[], pipe:[], wx:[], utd:[] };
 const tkKey = { tasks:"--c-tasks", appts:"--c-cal", rems:"--c-rem", pipe:"--c-pipe", wx:"--c-wx", utd:"--c-utd" };
 let tickerSig = "";
 function renderTicker(){
-  const order = ["tasks","appts","wx","utd","rems","pipe"];
+  const order = ["plan","tasks","appts","wx","utd","rems","pipe"];
   const items = order.flatMap(k => tickerData[k].map(i => ({ ...i, hue: i.hue || tkKey[k] })));
-  const html = items.length ? items.map(i => `<span class="tk"><b style="--h:var(${i.hue})">${esc(i.tag)}</b>${esc(i.text)}</span>`).join("")
+  const html = items.length ? items.map(i => `<span class="tk"><b style="--h:${i.color ? esc(i.color) : `var(${i.hue})`}">${esc(i.tag)}</b>${esc(i.text)}</span>`).join("")
     : `<span class="tk"><b>Clear</b> Nothing urgent. Add a reminder or pick a goal.</span>`;
   if (html === tickerSig) return; tickerSig = html;
   const run = $("#tickerRun"); run.innerHTML = html;
@@ -509,6 +593,143 @@ const store = {
   }
 };
 
+/* ---------- Day plan clock ---------- */
+const PLAN_PAL = ["#4f46e5","#ea5a3f","#16a065","#e1870c","#d9417d","#0b9aa8","#7b4fe0","#c9951a","#2f6fe0","#64748b"];
+const toH = t => { const m = /^(\d{1,2}):(\d{2})/.exec(t || ""); return m ? Number(m[1]) + Number(m[2]) / 60 : NaN; };
+const fromH = h => { h = Math.max(0, Math.min(23.99, h)); const hh = Math.floor(h), mm = Math.round((h - hh) * 60); return `${pad(mm === 60 ? hh + 1 : hh)}:${pad(mm === 60 ? 0 : mm)}`; };
+const fmtH = t => { const h = toH(t); if (isNaN(h)) return t; const d = new Date(); d.setHours(Math.floor(h), Math.round((h % 1) * 60), 0, 0); return fmtTime(d); };
+let planDay = startOfDay(now()), plan = { segs:[] }, unPlan = () => {}, planTodayCache = { segs:[] };
+const planKey = d => "plan-" + ymd(d);
+const isPlanToday = () => ymd(planDay) === ymd(now());
+const validSeg = g => !isNaN(toH(g.start)) && !isNaN(toH(g.end)) && toH(g.end) > toH(g.start);
+const nowH = () => { const d = now(); return d.getHours() + d.getMinutes() / 60 + d.getSeconds() / 3600; };
+$("#b-clock").innerHTML = `<div class="plan"><div class="clockwrap"><svg class="dclock" id="clockSvg" viewBox="0 0 200 200" role="img" aria-label="Clock showing your day plan"></svg><div class="nowcard" id="planNow"></div></div>
+  <div><div class="plan-nav"><button class="btn" type="button" id="pPrev" aria-label="Previous day">‹</button><span class="count" id="pDay"></span><button class="btn" type="button" id="pToday" hidden>Today</button><button class="btn" type="button" id="pNext" aria-label="Next day">›</button></div>
+  <div class="seg-head"><span></span><span>From</span><span>To</span><span>What</span><span></span></div><div id="segList"></div>
+  <div class="plan-actions"><button class="btn primary" type="button" id="pAdd" style="--h:var(--c-clock)">+ Add segment</button><button class="btn" type="button" id="pCopy">Copy previous day</button></div></div></div>`;
+function arcPath(r, h0, h1){
+  const ang = h => ((h % 12) / 12) * 2 * Math.PI - Math.PI / 2;
+  const span = Math.min(h1 - h0, 11.999); const a0 = ang(h0), a1 = ang(h0 + span);
+  const x0 = 100 + r * Math.cos(a0), y0 = 100 + r * Math.sin(a0), x1 = 100 + r * Math.cos(a1), y1 = 100 + r * Math.sin(a1);
+  return `M${x0.toFixed(2)} ${y0.toFixed(2)} A${r} ${r} 0 ${span > 6 ? 1 : 0} 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`;
+}
+function drawClock(){
+  const svg = $("#clockSvg"); if (!svg) return;
+  const segs = (plan.segs || []).filter(validSeg);
+  const today = isPlanToday(); const nh = nowH();
+  const half = today ? (nh < 12 ? 0 : 12) : 6; // other days: show 6am–6pm on the outer ring
+  const h0 = half, h1 = half + 12;
+  let out = `<circle class="face" cx="100" cy="100" r="97"/><circle class="ring-bg" cx="100" cy="100" r="88" stroke-width="12"/><circle class="ring-bg" cx="100" cy="100" r="47" stroke-width="5"/>`;
+  const clip = (g, a, b) => { const s0 = Math.max(toH(g.start), a), s1 = Math.min(toH(g.end), b); return s1 > s0 ? [s0, s1] : null; };
+  for (const g of segs){
+    const inner = [[h0 - 12, h0], [h1, h1 + 12]].map(([a, b]) => clip(g, Math.max(0, a), Math.min(24, b))).filter(Boolean);
+    inner.forEach(([a, b]) => { out += `<path d="${arcPath(47, a, b)}" fill="none" stroke="${esc(g.color)}" stroke-width="5" opacity=".55"><title>${esc(g.label || "Segment")} ${esc(fmtH(g.start))}–${esc(fmtH(g.end))}</title></path>`; });
+    const o = clip(g, h0, h1);
+    if (o){ const active = today && nh >= o[0] && nh < o[1];
+      out += `<path d="${arcPath(88, o[0], o[1])}" fill="none" stroke="${esc(g.color)}" stroke-width="${active ? 16 : 12}" stroke-linecap="butt"><title>${esc(g.label || "Segment")} ${esc(fmtH(g.start))}–${esc(fmtH(g.end))}</title></path>`; }
+  }
+  for (let i = 0; i < 60; i++){ const a = i / 60 * 2 * Math.PI, maj = i % 5 === 0, r0 = maj ? 70 : 74;
+    out += `<line class="tick ${maj ? "major" : ""}" x1="${(100 + r0 * Math.sin(a)).toFixed(2)}" y1="${(100 - r0 * Math.cos(a)).toFixed(2)}" x2="${(100 + 78 * Math.sin(a)).toFixed(2)}" y2="${(100 - 78 * Math.cos(a)).toFixed(2)}" stroke-width="${maj ? 2.2 : 1}"/>`; }
+  for (let n = 1; n <= 12; n++){ const a = n / 12 * 2 * Math.PI; const label = half === 12 ? (n === 12 ? 12 : n + 12) : n; out += `<text x="${(100 + 60 * Math.sin(a)).toFixed(2)}" y="${(100 - 60 * Math.cos(a)).toFixed(2)}">${label}</text>`; }
+  out += `<text class="ampm" x="100" y="128">${today ? (half === 0 ? "AM" : "PM") : "6am–6pm"}</text>`;
+  if (today){
+    const d = now(); const hr = (d.getHours() % 12 + d.getMinutes() / 60) / 12 * 360, mn = (d.getMinutes() + d.getSeconds() / 60) / 60 * 360, sc = d.getSeconds() / 60 * 360;
+    const hand = (deg, len, w, cls) => `<line class="hand ${cls}" x1="100" y1="100" x2="${(100 + len * Math.sin(deg * Math.PI / 180)).toFixed(2)}" y2="${(100 - len * Math.cos(deg * Math.PI / 180)).toFixed(2)}" stroke-width="${w}"/>`;
+    out += hand(hr, 38, 5, "") + hand(mn, 56, 3.2, "") + hand(sc, 62, 1.4, "sec") + `<circle class="hub" cx="100" cy="100" r="4.5"/><circle class="hub2" cx="100" cy="100" r="2"/>`;
+  }
+  svg.innerHTML = out;
+}
+function planStatus(segs){
+  const nh = nowH(); const v = (segs || []).filter(validSeg).sort((a, b) => toH(a.start) - toH(b.start));
+  const cur = v.find(g => nh >= toH(g.start) && nh < toH(g.end)); const next = v.find(g => toH(g.start) > nh);
+  return { cur, next };
+}
+function minsLeft(h){ const m = Math.max(0, Math.round((h - nowH()) * 60)); return m >= 60 ? `${Math.floor(m / 60)}h ${m % 60}m` : `${m} min`; }
+function paintPlanNow(){
+  const box = $("#planNow"); if (!box) return;
+  if (!isPlanToday()){ const n = (plan.segs || []).filter(validSeg).length; box.style.removeProperty("--nc"); box.innerHTML = `<div class="hint">Planning ${esc(fmtDay(planDay))}</div><div class="big">${n} segment${n === 1 ? "" : "s"} planned</div>`; return; }
+  const { cur, next } = planStatus(plan.segs);
+  if (cur){ box.style.setProperty("--nc", cur.color); box.innerHTML = `<div class="hint">Now · ${esc(fmtH(cur.start))}–${esc(fmtH(cur.end))}</div><div class="big">${esc(cur.label || "Untitled")}</div><div class="hint">${esc(minsLeft(toH(cur.end)))} left${next ? ` · then ${esc(next.label || "next")} at ${esc(fmtH(next.start))}` : ""}</div>`; }
+  else if (next){ box.style.setProperty("--nc", next.color); box.innerHTML = `<div class="hint">Free time</div><div class="big">Next: ${esc(next.label || "Untitled")}</div><div class="hint">Starts ${esc(fmtH(next.start))} · in ${esc(minsLeft(toH(next.start)))}</div>`; }
+  else { box.style.removeProperty("--nc"); box.innerHTML = (plan.segs || []).length ? `<div class="big">Nothing else planned today</div>` : `<div class="big">No plan yet for today</div><div class="hint">Add segments to block out your day.</div>`; }
+}
+function planTicker(){
+  const { cur, next } = planStatus(planTodayCache.segs);
+  const items = [];
+  if (cur) items.push({ tag:"Now", text:`${cur.label || "Untitled"} · until ${fmtH(cur.end)} (${minsLeft(toH(cur.end))} left)`, color:cur.color });
+  if (next) items.push({ tag:`Next ${fmtH(next.start)}`, text:next.label || "Untitled", color:next.color });
+  tickerData.plan = items; renderTicker();
+}
+function paintSegs(){
+  const segs = plan.segs || []; const nh = nowH(); const today = isPlanToday();
+  $("#pDay").textContent = today ? "Today" : relDay(planDay) === fmtDay(planDay) ? fmtDay(planDay) : `${relDay(planDay)} · ${fmtDay(planDay)}`;
+  $("#pToday").hidden = today;
+  $("#segList").innerHTML = segs.length ? segs.map((g, i) => {
+    const bad = !validSeg(g); const now_ = today && !bad && nh >= toH(g.start) && nh < toH(g.end);
+    return `<div class="seg-row ${now_ ? "now" : ""}" style="--sc:${esc(g.color)}" data-i="${i}">
+      <label class="swatch" title="Change colour"><input type="color" value="${esc(g.color)}" data-f="color" data-i="${i}" aria-label="Colour for ${esc(g.label || "segment")}"></label>
+      <input type="time" value="${esc(g.start)}" data-f="start" data-i="${i}" step="300" aria-label="Start time" class="${bad ? "bad" : ""}">
+      <input type="time" value="${esc(g.end)}" data-f="end" data-i="${i}" step="300" aria-label="End time" class="${bad ? "bad" : ""}">
+      <input class="lbl" type="text" value="${esc(g.label)}" data-f="label" data-i="${i}" maxlength="80" placeholder="What are you doing?" aria-label="Segment label">
+      <button class="icon-btn" type="button" data-del="${i}" aria-label="Remove segment">×</button></div>
+      <div class="pal" data-i="${i}">${PLAN_PAL.map(c => `<button type="button" data-pal="${c}" data-i="${i}" style="background:${c}" aria-label="Use colour ${c}"></button>`).join("")}</div>`;
+  }).join("") : `<p class="state">No segments yet. Add one, e.g. 09:00–11:30 Work on a project.</p>`;
+}
+function paintPlan(){ paintSegs(); drawClock(); paintPlanNow(); }
+let planSaveT = null;
+function savePlan(soon){ clearTimeout(planSaveT); const key = planKey(planDay), val = { segs: plan.segs }; if (isPlanToday()) { planTodayCache = val; planTicker(); } if (soon) planSaveT = setTimeout(() => store.save(key, val), 600); else store.save(key, val); }
+function sortSegs(){ plan.segs = [...plan.segs].sort((a, b) => (toH(a.start) || 0) - (toH(b.start) || 0)); }
+$("#b-clock").addEventListener("input", e => {
+  const f = e.target.dataset.f, i = Number(e.target.dataset.i); if (!f || isNaN(i)) return;
+  plan.segs = plan.segs.map((g, j) => j === i ? { ...g, [f]: e.target.value } : g);
+  if (f === "color"){ const row = e.target.closest(".seg-row"); if (row) row.style.setProperty("--sc", e.target.value); }
+  drawClock(); paintPlanNow(); savePlan(true);
+});
+$("#b-clock").addEventListener("change", e => { const f = e.target.dataset.f; if (f === "start" || f === "end"){ sortSegs(); paintPlan(); savePlan(); } });
+$("#b-clock").addEventListener("click", e => {
+  const t = e.target;
+  if (t.closest("#pPrev")){ planDay = addDays(planDay, -1); loadPlan(); return; }
+  if (t.closest("#pNext")){ planDay = addDays(planDay, 1); loadPlan(); return; }
+  if (t.closest("#pToday")){ planDay = startOfDay(now()); loadPlan(); return; }
+  if (t.dataset.del !== undefined){ plan.segs = plan.segs.filter((_, j) => j !== Number(t.dataset.del)); paintPlan(); savePlan(); return; }
+  if (t.dataset.pal){ const i = Number(t.dataset.i); plan.segs = plan.segs.map((g, j) => j === i ? { ...g, color:t.dataset.pal } : g); paintPlan(); savePlan(); return; }
+  if (t.closest("#pAdd")){
+    const segs = plan.segs || []; const lastEnd = segs.filter(validSeg).reduce((m, g) => Math.max(m, toH(g.end)), 0);
+    let st = isPlanToday() ? Math.max(Math.ceil(nowH() * 2) / 2, lastEnd) : (lastEnd || 9); if (st >= 23) st = 9;
+    plan.segs = [...segs, { start:fromH(st), end:fromH(Math.min(st + 1, 23.99)), label:"", color:PLAN_PAL[segs.length % PLAN_PAL.length] }];
+    sortSegs(); paintPlan(); savePlan();
+    const rows = [...document.querySelectorAll("#segList .lbl")]; const idx = plan.segs.findIndex(g => g.label === "" && g.start === fromH(st)); if (rows[idx]) rows[idx].focus();
+    return;
+  }
+  if (t.closest("#pCopy")){
+    const src = planKey(addDays(planDay, -1)); const un = store.watch(src, { segs:[] }, d => {
+      setTimeout(() => un(), 0);
+      const copy = ((d && d.segs) || []).map(g => ({ ...g }));
+      if (!copy.length){ $("#planNow").innerHTML = `<div class="big">Nothing planned the day before to copy.</div>`; return; }
+      plan.segs = [...(plan.segs || []), ...copy]; sortSegs(); paintPlan(); savePlan();
+    });
+  }
+});
+function loadPlan(){
+  unPlan(); plan = { segs:[] }; paintPlan();
+  const key = planKey(planDay);
+  unPlan = store.watch(key, { segs:[] }, d => {
+    const a = document.activeElement; const keep = a && a.closest && a.closest("#segList") ? { f:a.dataset.f, i:a.dataset.i, pos:a.selectionStart } : null;
+    if (keep && document.activeElement.dataset.f === "label" && planSaveT) return; // don't clobber typing
+    plan = { segs: (d && d.segs) || [] }; paintPlan();
+    if (isPlanToday()){ planTodayCache = plan; planTicker(); }
+    if (keep){ const el = document.querySelector(`#segList [data-f="${keep.f}"][data-i="${keep.i}"]`); if (el){ el.focus(); try { if (keep.pos != null) el.setSelectionRange(keep.pos, keep.pos); } catch {} } }
+  });
+}
+let lastMinute = -1, lastDay = ymd(now());
+setInterval(() => {
+  if (isPlanToday()) drawClock();
+  const d = now();
+  if (d.getMinutes() !== lastMinute){ lastMinute = d.getMinutes(); paintPlanNow(); planTicker(); const nowRow = document.querySelector("#segList .seg-row.now"); if (isPlanToday() && !document.activeElement.closest?.("#segList")) paintSegs(); }
+  if (ymd(d) !== lastDay){ const wasToday = ymd(planDay) === lastDay; lastDay = ymd(d); if (wasToday){ planDay = startOfDay(d); loadPlan(); } }
+}, 1000);
+
+paintPlan();
 /* ---------- Reminders ---------- */
 $("#b-rems").innerHTML = `<form class="rem-add" id="remForm"><input class="field" id="remInput" placeholder="Add a reminder" aria-label="New reminder" maxlength="140"><button class="btn primary" type="submit">Add</button></form><div id="rems"></div>`;
 let rems = [];
@@ -570,12 +791,20 @@ function paintUnited(){
   tickerData.utd = items; renderTicker();
 }
 setInterval(paintUnited, 60000);
+const ACCU_KEY = "207847"; // Letterkenny, Co. Donegal
+let wxNow = null, wxDays = null;
 function paintWeather(){
-  if (!wx){ tickerData.wx = []; renderTicker(); return; }
-  const warn = String(wx.warning || "").trim(); const isWarn = warn && warn.toLowerCase() !== "green";
   const items = [];
-  if (isWarn) items.push({ tag:`${warn} warning`, text:"Met Éireann weather warning in force", hue:"--bad" });
-  items.push({ tag:"Weather", text:`Letterkenny · ${wx.now ? wx.now.split(/[,;]/)[0] : ""} · low ${wx.tonightLow || "–"} · tomorrow ${wx.tomorrowHigh || "–"}` });
+  const c = wxNow && wxNow.currentConditions, d = wxDays && wxDays.dailyForecast;
+  const alerts = [ ...((wxNow && wxNow.alerts) || []), ...((wxDays && wxDays.alerts) || []) ];
+  alerts.slice(0, 2).forEach(a => items.push({ tag:"Weather alert", text: a.description || a.headline || a.category || "Weather alert for Letterkenny", hue:"--bad" }));
+  if (c || d){
+    const parts = [];
+    if (c) parts.push(`${c.temperature} ${c.phrase}${c.realFeel ? " (feels " + c.realFeel + ")" : ""}`);
+    if (d && d[0] && d[0].night) parts.push(`tonight ${d[0].night.displayTemperature} ${String(d[0].night.phrase || "").toLowerCase()}`);
+    if (d && d[1] && d[1].day) parts.push(`tomorrow ${d[1].day.displayTemperature} ${String(d[1].day.phrase || "").toLowerCase()}${d[1].day.rainProbabilityValue >= 40 ? ", " + d[1].day.rainProbability + " rain" : ""}`);
+    items.push({ tag:"Letterkenny", text: parts.join(" · ") });
+  }
   tickerData.wx = items; renderTicker();
 }
 
@@ -635,41 +864,125 @@ function renderPipe(p){
 /* Appointments: Google Calendar + HubSpot meetings */
 const appts = { gcal:{}, hs:[] };
 let gcals = [];
-function paintAppts(){
-  const all = [...Object.entries(appts.gcal).filter(([id]) => calPrefs[id] !== false).flatMap(([, v]) => v), ...appts.hs].filter(a => a.s && (a.e || a.s) >= startOfDay(now())).sort((a, b) => a.s - b.s);
-  const box = $("#b-cal");
-  if (!all.length){ if (!box.dataset.err) box.innerHTML = `<p class="state">Nothing booked for the next two weeks.</p>`; }
-  else {
-    const byDay = {}; all.forEach(a => { const k = ymd(a.s); (byDay[k] = byDay[k] || []).push(a); });
-    box.innerHTML = Object.entries(byDay).map(([k, list]) => `<div class="group-h"><span class="chip" style="--cc:var(--c-cal)">${esc(relDay(list[0].s))}</span></div><div class="list">${list.map(a => {
-      const inner = `<span class="stripe" style="background:${esc(a.color || "var(--c-cal)")}"></span><span class="main"><div class="t">${esc(a.t)}</div><div class="s">${esc(a.label || "Calendar")}${a.loc ? " · " + esc(a.loc) : ""}</div></span><span class="when">${a.allDay ? "All day" : esc(fmtTime(a.s))}</span>`;
-      return a.url ? `<a class="row" href="${esc(a.url)}" target="_blank" rel="noopener">${inner}</a>` : `<div class="row">${inner}</div>`; }).join("")}</div>`).join("");
+let calView = ls.get("cal.view", "list"), calWeek = 0, calMonth = 0, calSel = null;
+$("#meta-cal").innerHTML = `<span class="seg" role="group" aria-label="Calendar view"><button type="button" data-v="list" aria-pressed="false">List</button><button type="button" data-v="week" aria-pressed="false">Week</button><button type="button" data-v="month" aria-pressed="false">Month</button></span>`;
+$("#meta-cal").addEventListener("click", e => { const b = e.target.closest("button[data-v]"); if (!b) return; calView = b.dataset.v; ls.set("cal.view", calView); paintAppts(); });
+$("#b-cal").addEventListener("click", e => {
+  if (e.target.closest("#wkPrev")){ calWeek = Math.max(0, calWeek - 1); paintAppts(); }
+  if (e.target.closest("#wkNext")){ calWeek = Math.min(8, calWeek + 1); paintAppts(); }
+  if (e.target.closest("#wkNow")){ calWeek = 0; paintAppts(); }
+  if (e.target.closest("#moPrev")){ calMonth = Math.max(0, calMonth - 1); calSel = null; paintAppts(); }
+  if (e.target.closest("#moNext")){ calMonth = Math.min(2, calMonth + 1); calSel = null; paintAppts(); }
+  if (e.target.closest("#moNow")){ calMonth = 0; calSel = null; paintAppts(); }
+  const cell = e.target.closest(".moc"); if (cell){ calSel = cell.dataset.d === calSel ? null : cell.dataset.d; paintAppts(); }
+});
+const evSort = (a, b) => (startOfDay(a.s) - startOfDay(b.s)) || ((b.allDay ? 1 : 0) - (a.allDay ? 1 : 0)) || (a.s - b.s);
+const overlaps = (a, d0, d1) => a.s < d1 && (a.e || a.s) >= d0;
+const cleanT = t => String(t || "").replace(/^[^\p{L}\p{N}]+/u, "").trim() || "Busy";
+function evRow(a){
+  const inner = `<span class="stripe" style="background:${esc(a.color || "var(--c-cal)")}"></span><span class="main"><div class="t">${esc(cleanT(a.t))}</div><div class="s">${esc(a.label || "Calendar")}${a.loc ? " · " + esc(a.loc) : ""}</div></span><span class="when">${a.allDay ? "All day" : esc(fmtTime(a.s))}</span>`;
+  return a.url ? `<a class="row" href="${esc(a.url)}" target="_blank" rel="noopener">${inner}</a>` : `<div class="row">${inner}</div>`;
+}
+function weekHtml(evs){
+  const ws = addDays(mondayOf(now()), calWeek * 7); const days = [0,1,2,3,4,5,6].map(i => addDays(ws, i));
+  const label = calWeek === 0 ? "This week" : calWeek === 1 ? "Next week" : `${fmtDay(ws)} – ${fmtDay(days[6])}`;
+  return `<div class="wk-nav"><button class="btn" type="button" id="wkPrev" ${calWeek === 0 ? "disabled" : ""} aria-label="Previous week">‹</button><span class="count">${esc(label)}</span>${calWeek ? `<button class="btn" type="button" id="wkNow">Today</button>` : ""}<button class="btn" type="button" id="wkNext" ${calWeek === 8 ? "disabled" : ""} aria-label="Next week">›</button></div>
+  <div class="wk">${days.map(d => { const list = evs.filter(a => overlaps(a, d, addDays(d, 1))); const today = ymd(d) === ymd(now());
+    return `<div class="wkd ${today ? "today" : ""}"><div class="wkh"><span>${esc(d.toLocaleDateString("en-IE", { weekday:"short" }))}</span><b>${d.getDate()}</b></div>${list.map(a => { const tag = a.url ? "a" : "div";
+      return `<${tag} class="wke" ${a.url ? `href="${esc(a.url)}" target="_blank" rel="noopener"` : ""} style="--ec:${esc(a.color || "var(--c-cal)")}" title="${esc(cleanT(a.t))} · ${esc(a.label || "Calendar")}"><span class="wkt">${a.allDay ? "All day" : esc(fmtTime(a.s))}</span>${esc(cleanT(a.t))}</${tag}>`; }).join("") || `<span class="wk-empty">Free</span>`}</div>`; }).join("")}</div>`;
+}
+function monthHtml(evs){
+  const base = new Date(now().getFullYear(), now().getMonth() + calMonth, 1);
+  const gridStart = mondayOf(base); const nextM = new Date(base.getFullYear(), base.getMonth() + 1, 1);
+  const weeks = Math.ceil((nextM - gridStart) / (7 * 86400000));
+  const cells = [];
+  for (let i = 0; i < weeks * 7; i++){
+    const d = addDays(gridStart, i); const list = evs.filter(a => overlaps(a, d, addDays(d, 1))); const k = ymd(d);
+    const cls = [d.getMonth() !== base.getMonth() ? "out" : "", k === ymd(now()) ? "today" : "", k === calSel ? "sel" : ""].join(" ");
+    cells.push(`<button type="button" class="moc ${cls}" data-d="${k}" aria-label="${esc(fmtDay(d))}: ${list.length} event${list.length === 1 ? "" : "s"}"><span class="n">${d.getDate()}</span>${list.slice(0, 3).map(a => `<span class="moe" style="--ec:${esc(a.color || "var(--c-cal)")}">${esc(cleanT(a.t))}</span>`).join("")}${list.length > 3 ? `<span class="more">+${list.length - 3} more</span>` : ""}<span class="dots">${list.slice(0, 6).map(a => `<i style="--ec:${esc(a.color || "var(--c-cal)")}"></i>`).join("")}</span></button>`);
   }
-  const t2 = addDays(startOfDay(now()), 2);
-  tickerData.appts = all.filter(a => a.s < t2 && (a.allDay || a.s >= now())).map(a => ({ tag:`${relDay(a.s)}${a.allDay ? "" : " " + fmtTime(a.s)}`, text:a.t }));
+  let detail = "";
+  if (calSel){ const d = new Date(calSel + "T00:00:00"); const list = evs.filter(a => overlaps(a, d, addDays(d, 1)));
+    detail = `<div class="mo-day"><div class="group-h"><span class="chip" style="--cc:var(--c-cal)">${esc(d.toLocaleDateString("en-IE", { weekday:"long", day:"numeric", month:"long" }))}</span></div>${list.length ? `<div class="list">${list.map(evRow).join("")}</div>` : `<p class="state">Nothing on this day.</p>`}</div>`; }
+  return `<div class="wk-nav"><button class="btn" type="button" id="moPrev" ${calMonth === 0 ? "disabled" : ""} aria-label="Previous month">‹</button><span class="count">${esc(base.toLocaleDateString("en-IE", { month:"long", year:"numeric" }))}</span>${calMonth ? `<button class="btn" type="button" id="moNow">Today</button>` : ""}<button class="btn" type="button" id="moNext" ${calMonth === 2 ? "disabled" : ""} aria-label="Next month">›</button></div>
+  <div class="mo-head">${["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map(x => `<div>${x}</div>`).join("")}</div><div class="mo">${cells.join("")}</div>${detail}<p class="hint" style="margin:8px 0 0">Tap a day to see its events.</p>`;
+}
+function paintAppts(){
+  document.querySelectorAll("#meta-cal button").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === calView));
+  const evs = [...Object.entries(appts.gcal).filter(([id]) => calPrefs[id] !== false).flatMap(([, v]) => v), ...appts.hs].filter(a => a.s).sort(evSort);
+  const t0 = startOfDay(now()), t14 = addDays(t0, 14);
+  const up = evs.filter(a => overlaps(a, t0, t14));
+  const box = $("#b-cal");
+  if (!box.dataset.err){
+    if (calView === "week") box.innerHTML = weekHtml(evs);
+    else if (calView === "month") box.innerHTML = monthHtml(evs);
+    else if (!up.length) box.innerHTML = `<p class="state">Nothing booked for the next two weeks.</p>`;
+    else {
+      const byDay = {}; up.forEach(a => { const k = ymd(a.s < t0 ? t0 : a.s); (byDay[k] = byDay[k] || []).push(a); });
+      box.innerHTML = Object.entries(byDay).map(([k, list]) => `<div class="group-h"><span class="chip" style="--cc:var(--c-cal)">${esc(relDay(new Date(k + "T00:00:00")))}</span></div><div class="list">${list.map(evRow).join("")}</div>`).join("");
+    }
+  }
+  const t2 = addDays(t0, 2);
+  tickerData.appts = up.filter(a => a.s < t2 && a.s >= t0 && (a.allDay || a.s >= now())).map(a => ({ tag:`${relDay(a.s)}${a.allDay ? "" : " " + fmtTime(a.s)}`, text:cleanT(a.t) }));
   renderTicker();
 }
 function mapEvents(p, cal){
   return ((p && p.events) || []).filter(e => e.status !== "cancelled").map(e => {
     const allDay = !!(e.start && e.start.date && !e.start.dateTime);
-    const s = e.start ? new Date(e.start.dateTime || (e.start.date + "T00:00:00")) : null;
-    const en = e.end ? new Date(e.end.dateTime || (e.end.date + "T00:00:00")) : null;
+    const day = d => new Date(String(d).slice(0, 10) + "T00:00:00");
+    const s = e.start ? (e.start.dateTime ? new Date(e.start.dateTime) : day(e.start.date)) : null;
+    const en = e.end ? (e.end.dateTime ? new Date(e.end.dateTime) : new Date(day(e.end.date).getTime() - 1)) : null;
     return { t:e.summary || "Busy", s, e:en, allDay, loc:e.location && !/instructions in description/i.test(e.location) ? e.location : (e.conferenceUrl ? "Video call" : ""), url:e.htmlLink,
-      label: cal.primary ? "Work calendar" : cal.name, color: cal.primary ? "var(--c-cal)" : (cal.color || "var(--c-goals)") };
+      label: cal.primary ? "Work calendar" : cal.name, color: cal.color };
   });
 }
 function renderHsMeet(p){
   appts.hs = ((p && p.results) || []).map(r => { const q = r.properties || {}; return { t:q.hs_meeting_title || r.displayName || "Meeting", s:q.hs_meeting_start_time ? new Date(q.hs_meeting_start_time) : null, e:q.hs_meeting_end_time ? new Date(q.hs_meeting_end_time) : null, loc:q.hs_meeting_location, label:"HubSpot meeting", color:"var(--c-tasks)" }; });
   paintAppts();
 }
-function renderMail(p){
-  const th = (p && p.threads) || []; let unread = 0;
-  const rows = th.map(t => { const ms = t.messages || []; const m = ms[ms.length - 1] || {}; const u = ms.some(x => (x.labelIds || []).includes("UNREAD")); if (u) unread++;
-    const from = String(m.sender || "").replace(/<.*>/, "").trim(); const d = m.date ? new Date(m.date) : null;
-    return `<a class="row" href="${esc(t.viewUrl || m.viewUrl || "https://mail.google.com")}" target="_blank" rel="noopener"><span class="dotc ${u ? "" : "read"}" aria-label="${u ? "Unread" : "Read"}"></span><span class="main"><div class="t">${esc(m.subject || "(no subject)")}</div><div class="s">${esc(from)}${m.snippet ? " · " + esc(m.snippet.replace(/[\s͏]+/g, " ").slice(0, 90)) : ""}</div></span><span class="when">${d ? esc(relDay(d)) : ""}</span></a>`; });
-  $("#b-inbox").innerHTML = rows.length ? `<div class="list">${rows.join("")}</div>` : `<p class="state">Inbox is clear for the last 7 days.</p>`;
-  $("#meta-inbox").textContent = `Gmail · ${unread} unread`;
+/* Inbox: scroll, load more, search */
+const mail = { inbox:null, mode:"inbox", q:"", threads:[], next:null, loading:false, appended:false };
+let mcpRef = null;
+$("#b-inbox").innerHTML = `<form class="mail-search" id="mailForm" role="search"><input class="field" id="mailQ" type="search" placeholder="Search all mail, e.g. invoice or from:andrew" aria-label="Search email"><button class="btn primary" type="submit">Search</button></form><div id="mailNote" class="hint" hidden></div><div id="mailList"><p class="state">Loading your inbox…</p></div><div id="mailMore"></div>`;
+const threadUnread = t => (t.messages || []).some(x => (x.labelIds || []).includes("UNREAD"));
+function mailRow(t){
+  const ms = t.messages || []; const m = ms[ms.length - 1] || {}; const u = threadUnread(t);
+  const from = String(m.sender || "").replace(/<.*>/, "").trim(); const d = m.date ? new Date(m.date) : null;
+  const n = t.messageCount || ms.length;
+  return `<a class="row" href="${esc(t.viewUrl || m.viewUrl || "https://mail.google.com")}" target="_blank" rel="noopener"><span class="dotc ${u ? "" : "read"}" aria-label="${u ? "Unread" : "Read"}"></span><span class="main"><div class="t" style="font-weight:${u ? 700 : 500}">${esc(m.subject || "(no subject)")}${n > 1 ? ` <span class="count">(${n})</span>` : ""}</div><div class="s">${esc(from)}${m.snippet ? " · " + esc(m.snippet.replace(/[\s͏]+/g, " ").slice(0, 110)) : ""}</div></span><span class="when">${d ? esc(relDay(d)) : ""}</span></a>`;
 }
+function paintMail(){
+  const list = mail.threads;
+  $("#mailList").innerHTML = list.length ? `<div class="list">${list.map(mailRow).join("")}</div>` : `<p class="state">${mail.mode === "search" ? "No emails match that search." : "Your inbox is empty."}</p>`;
+  $("#mailMore").innerHTML = mail.next ? `<button class="btn" type="button" id="mailMoreBtn" style="width:100%;margin-top:8px" ${mail.loading ? "disabled" : ""}>${mail.loading ? "Loading…" : "Load more emails"}</button>` : (list.length ? `<p class="hint" style="text-align:center;margin:8px 0 0">That's everything.</p>` : "");
+  const note = $("#mailNote");
+  if (mail.mode === "search"){ note.hidden = false; note.innerHTML = `${list.length}${mail.next ? "+" : ""} results for “${esc(mail.q)}” · <button class="linkbtn" type="button" id="mailClear">Back to inbox</button>`; $("#meta-inbox").textContent = "Gmail · search"; }
+  else { note.hidden = true; $("#meta-inbox").textContent = `Gmail · ${list.filter(threadUnread).length} unread`; }
+}
+function onInbox(p){
+  mail.inbox = p || {};
+  if (mail.mode === "inbox" && !mail.appended){ mail.threads = mail.inbox.threads || []; mail.next = mail.inbox.nextPageToken || null; paintMail(); }
+}
+async function mailFetch(query, pageToken){
+  const input = { query, pageSize:25 }; if (pageToken) input.pageToken = pageToken;
+  const r = await mcpRef.callTool("Gmail", "search_threads", input); return r.payload || {};
+}
+async function mailMore(){
+  if (!mcpRef || !mail.next || mail.loading) return; mail.loading = true; paintMail();
+  try { const p = await mailFetch(mail.mode === "search" ? mail.q : "in:inbox", mail.next); mail.threads = [...mail.threads, ...(p.threads || [])]; mail.next = p.nextPageToken || null; if (mail.mode === "inbox") mail.appended = true; }
+  catch (e){ $("#mailNote").hidden = false; $("#mailNote").textContent = errText(e, "Gmail"); }
+  mail.loading = false; paintMail();
+}
+async function mailSearch(q){
+  if (!mcpRef) return; mail.mode = "search"; mail.q = q; mail.threads = []; mail.next = null;
+  $("#mailList").innerHTML = `<p class="state">Searching…</p>`; $("#mailMore").innerHTML = "";
+  try { const p = await mailFetch(q); if (mail.mode !== "search" || mail.q !== q) return; mail.threads = p.threads || []; mail.next = p.nextPageToken || null; paintMail(); }
+  catch (e){ errBox($("#mailList"), e, "Gmail", () => mailSearch(q)); }
+}
+function mailBack(){ mail.mode = "inbox"; mail.q = ""; mail.appended = false; $("#mailQ").value = ""; mail.threads = (mail.inbox && mail.inbox.threads) || []; mail.next = (mail.inbox && mail.inbox.nextPageToken) || null; paintMail(); }
+$("#b-inbox").addEventListener("submit", e => { if (e.target.id !== "mailForm") return; e.preventDefault(); const q = $("#mailQ").value.trim(); if (q) mailSearch(q); else mailBack(); });
+$("#b-inbox").addEventListener("click", e => { if (e.target.closest("#mailMoreBtn")) mailMore(); if (e.target.closest("#mailClear")) mailBack(); });
+$("#b-inbox").addEventListener("input", e => { if (e.target.id === "mailQ" && !e.target.value && mail.mode === "search") mailBack(); });
 /* Monday */
 const mondayBoards = new Map(); let mondayOrder = [];
 const MSTAT = s => /done|complete/i.test(s) ? "var(--good)" : /stuck|blocked/i.test(s) ? "var(--bad)" : /working|progress/i.test(s) ? "var(--warn)" : "var(--muted)";
@@ -692,14 +1005,15 @@ function paintMonday(){
 async function boot(){
   await store.init();
   store.watch("reminders", { items:[] }, d => { rems = (d && d.items) || []; paintRems(); });
-  store.watch("layout", null, d => { if (d && d.items && !drag){ const n = normLayout(d.items); if (JSON.stringify(n) !== JSON.stringify(layout)){ layout = n; ls.set("desk.layout.v3", layout); applyLayout(); } if (d.cal && JSON.stringify(d.cal) !== JSON.stringify(calPrefs)){ calPrefs = d.cal; ls.set("desk.calprefs", calPrefs); paintAppts(); } } });
+  store.watch("layout", null, d => { if (d && d.items && !drag){ const n = normLayout(d.items); if (JSON.stringify(n) !== JSON.stringify(layout)){ layout = n; ls.set("desk.layout.v3", layout); applyLayout(); } if (d.cal && JSON.stringify(d.cal) !== JSON.stringify(calPrefs)){ calPrefs = { ...calPrefs, ...d.cal }; ls.set("desk.calprefs", calPrefs); paintAppts(); } } });
   loadWeek();
-  store.feed("united", d => { utdFeed = d; paintUnited(); });
-  store.feed("weather", d => { wx = d; paintWeather(); });
+  loadPlan();
 
   const mcp = (window.claude && window.claude.use) ? await window.claude.use("mcp").catch(() => null) : null;
-  if (!mcp){ ["tasks","inbox","pipe","cal","monday"].forEach(k => $("#b-" + k).innerHTML = `<p class="state">Live data shows when this page is open in claude.ai.</p>`); renderTicker(); return; }
+  if (!mcp){ ["tasks","pipe","cal","monday"].forEach(k => $("#b-" + k).innerHTML = `<p class="state">Live data shows when this page is open in claude.ai.</p>`); $("#mailList").innerHTML = `<p class="state">Live data shows when this page is open in claude.ai.</p>`; renderTicker(); return; }
   const t0 = startOfDay(now());
+  const calFrom = new Date(Math.min(mondayOf(new Date(t0.getFullYear(), t0.getMonth(), 1)), mondayOf(t0)));
+  const calTo = addDays(new Date(t0.getFullYear(), t0.getMonth() + 3, 1), 7);
   const watch = (s) => {
     let has = false;
     const retry = () => mcp.callTool(s.server, s.tool, s.input).then(r => { has = true; s.render(r.payload); }).catch(e => s.fail(e, retry));
@@ -714,25 +1028,39 @@ async function boot(){
   watch({ server:"HubSpot", tool:"search_crm_objects", render:renderPipe, fail:simpleFail("#b-pipe","HubSpot",() => tickerData.pipe = []),
     input:{ objectType:"DEAL", limit:100, chatInsights:insights, filterGroups:[{ filters:[{ propertyName:"hubspot_owner_id", operator:"EQ", value:OWNER }] }], properties:["dealname","amount","amount_in_home_currency","dealstage","closedate","hs_is_closed","hs_is_closed_won"] } });
   watch({ server:"HubSpot", tool:"search_crm_objects", render:renderHsMeet, fail:() => { appts.hs = []; paintAppts(); },
-    input:{ objectType:"MEETING", limit:20, chatInsights:insights, filterGroups:[{ filters:[{ propertyName:"hs_meeting_start_time", operator:"BETWEEN", value:t0.toISOString(), highValue:addDays(t0, 14).toISOString() }] }], properties:["hs_meeting_title","hs_meeting_start_time","hs_meeting_end_time","hs_meeting_location"] } });
+    input:{ objectType:"MEETING", limit:100, chatInsights:insights, filterGroups:[{ filters:[{ propertyName:"hs_meeting_start_time", operator:"BETWEEN", value:calFrom.toISOString(), highValue:calTo.toISOString() }] }], properties:["hs_meeting_title","hs_meeting_start_time","hs_meeting_end_time","hs_meeting_location"] } });
   const calWatches = new Map();
   watch({ server:"Google Calendar", tool:"list_calendars", input:{ pageSize:100 },
     fail:(e, retry) => { $("#b-cal").dataset.err = "1"; errBox($("#b-cal"), e, "Google Calendar", retry); },
     render:p => {
       const list = (p && (p.calendars || p.items)) || [];
-      gcals = list.map((c, i) => ({ id:c.id, key:"c" + i, name:c.summaryOverride || c.summary || c.id, color:c.backgroundColor, primary:!!c.primary || c.id === "fintraconsulting@gmail.com" }));
+      const PAL = ["var(--c-rem)","var(--c-pipe)","var(--c-monday)","var(--c-tasks)","var(--c-goals)","var(--c-mail)","var(--c-timer)"];
+      let pi = 0;
+      gcals = list.map((c, i) => {
+        let name = c.summaryOverride || c.summary || c.id;
+        if (/^https?:/i.test(name)) name = /49ers/i.test(name) ? "San Francisco 49ers" : (c.description || "Subscribed calendar").slice(0, 40);
+        const primary = !!c.primary || c.id === "fintraconsulting@gmail.com";
+        const sport = /fixtures|49ers|rugby|harps|football|\bfc\b/i.test(name + " " + (c.summary || "")) && !isUtd(name);
+        if (sport && calPrefs[c.id] === undefined) calPrefs[c.id] = false;
+        return { id:c.id, key:"c" + i, name, primary, color: primary ? "var(--c-cal)" : (c.backgroundColor || PAL[pi++ % PAL.length]) };
+      });
       delete $("#b-cal").dataset.err;
       for (const c of gcals){
         if (calWatches.has(c.id)) continue;
         const isU = isUtd(c.name) && !/\(w\)|women/i.test(c.name);
         calWatches.set(c.id, watch({ server:"Google Calendar", tool:"list_events",
-          input:{ calendarId:c.id, startTime:localIso(isU ? addDays(t0, -21) : t0), endTime:localIso(addDays(t0, isU ? 60 : 14)), orderBy:"startTime", pageSize:50 },
+          input:{ calendarId:c.id, startTime:localIso(isU ? addDays(t0, -21) : calFrom), endTime:localIso(isU ? addDays(t0, 60) : calTo), orderBy:"startTime", pageSize:250 },
           render:q => { const evs = mapEvents(q, c); if (isU){ utdCal = utdFromCal(evs); paintUnited(); } else { appts.gcal[c.id] = evs; paintAppts(); } },
           fail:() => { if (!isU){ appts.gcal[c.id] = []; paintAppts(); } } }));
       }
       paintAppts();
     } });
-  watch({ server:"Gmail", tool:"search_threads", render:renderMail, fail:simpleFail("#b-inbox","Gmail"), input:{ query:"in:inbox newer_than:7d", pageSize:12 } });
+  watch({ server:"AccuWeather", tool:"widgets-current-claude", input:{ queryParams:{ locationKey:ACCU_KEY, unit:"metric", lang:"en" } },
+    render:p => { wxNow = p; paintWeather(); }, fail:() => { wxNow = null; paintWeather(); } });
+  watch({ server:"AccuWeather", tool:"widgets-todayTonightForecast-claude", input:{ queryParams:{ locationKey:ACCU_KEY, unit:"metric", lang:"en", days:2 } },
+    render:p => { wxDays = p; paintWeather(); }, fail:() => { wxDays = null; paintWeather(); } });
+  mcpRef = mcp;
+  watch({ server:"Gmail", tool:"search_threads", render:onInbox, fail:(e, retry) => errBox($("#mailList"), e, "Gmail", retry), input:{ query:"in:inbox", pageSize:25 } });
   // Monday: list boards in the workspace, then watch each board's items
   const boardWatches = new Map();
   watch({ server:"monday.com", tool:"workspace_info", fail:simpleFail("#b-monday","monday.com"), input:{ workspace_id:MONDAY_WS },
